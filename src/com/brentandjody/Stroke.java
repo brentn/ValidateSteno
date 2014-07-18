@@ -4,9 +4,10 @@ package com.brentandjody;
  * Created by brentn on 17/07/14.
  */
 public class Stroke {
-    private static final String LEFTKEYS = "STKPWHR";
-    private static final String VOWELKEYS = "AO*EU";
-    private static final String RIGHTKEYS = "FRPBLGTSDZ";
+    private static final String LEFTKEYS = "#S1T2KP3WH4R";
+    private static final String VOWELKEYS = "A5O0*EU";
+    private static final String RIGHTKEYS = "F6RP7BL8GT9SDZ";
+    private static final String NUMBERKEYS = "1234567890";
 
     private String left="";
     private String vowels="";
@@ -24,7 +25,7 @@ public class Stroke {
         lastVowel++;
         if (firstVowel>=0) {
             this.left = string.substring(0, firstVowel);
-            if (lastVowel < string.length()) {
+            if (lastVowel <= string.length()) {
                 this.vowels = string.substring(firstVowel, lastVowel);
                 this.right = string.substring(lastVowel);
             }
@@ -46,6 +47,7 @@ public class Stroke {
 
     public String validate() {
         if ((left+vowels+right).length() == 0) return "ERROR: No Stroke Provided";
+        if (allNumbers(left+vowels+right)) return "VALID";
         if (! validateOrder(left, LEFTKEYS)) return "ERROR: '"+left+"' is not a valid stroke";
         if (! validateOrder(vowels, VOWELKEYS+"-")) return "ERROR: '"+vowels+"' is not a valid vowel stroke";
         if (! validateOrder(right, RIGHTKEYS)) return "ERROR: '"+right+"' is not a valid right-hand stroke";
@@ -61,6 +63,13 @@ public class Stroke {
             }
         }
         return false;
+    }
+
+    private Boolean allNumbers(String keys) {
+        for (int i=0; i<keys.length(); i++) {
+            if (NUMBERKEYS.indexOf(keys.charAt(i))<0) return false;
+        }
+        return true;
     }
 
 }
